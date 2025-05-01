@@ -13,6 +13,7 @@ export const AppContextProvider = ({ children }) => {
   const [showUserLogin, setShowUserLogin] = useState(null);
   const [products, setProducts] = useState([]);
   const [cartItem, setCartItem] = useState({});
+  const [searchQuery, setSearchQuery] = useState({});
 
   const addToCart = (itemId) => {
     let cartData = structuredClone(cartItem);
@@ -42,6 +43,27 @@ export const AppContextProvider = ({ children }) => {
     toast.success("Removed From Cart")
     setCartItem(cartData)
   };
+
+  const GetCArtCount =()=>{
+    let totalcount = 0;
+    for(const item in cartItem){
+      totalcount+=cartItem[item]
+    }
+return totalcount
+  }
+
+  const GetCartAmoutnt = () => {
+    let totalamount = 0;
+    for (const itemId in cartItem) {
+      const itemInfo = products.find((product) => product._id === itemId);
+      if (itemInfo && cartItem[itemId] > 0) {
+        totalamount += itemInfo.offerPrice * cartItem[itemId];
+      }
+    }
+    return Math.floor(totalamount * 100) / 100;
+  };
+  
+
   const fetchProduct = async () => {
     setProducts(dummyProducts);
   };
@@ -52,7 +74,9 @@ export const AppContextProvider = ({ children }) => {
   const value = {
     user,
     setUser,
+    GetCArtCount,
     isSeller,
+    GetCartAmoutnt,
     setIsSeller,
     navigate,
     showUserLogin,
@@ -60,8 +84,11 @@ export const AppContextProvider = ({ children }) => {
     products,
     currency,
     addToCart,
+    searchQuery,
+    setSearchQuery,
     cartItem,
     updateCartItem,
+     
     removeFromCart
   };
 
