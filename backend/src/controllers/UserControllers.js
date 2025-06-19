@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
+    
+    
     if (!name || !email || !password) {
         return res.status(400).json({ success: false, message: "Please fill all the fields" });
     }
@@ -32,20 +34,23 @@ export const registerUser = async (req, res) => {
 }
 //login User
 export const loginUser = async (req, res) => {
+    console.log("login triggered");
+
     const { email, password } = req.body;
+
     if (!email || !password) {
         return res.status(400).json({ success: false, message: "Please fill all the fields" });
     }
     try {
         const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ success: false, message: "User not found" });
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
+        if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
+        const isMatch = await bcrypt.compare(password, user.password);
+       
         if (!isMatch) {
             return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
+
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
         res.cookie("token", token, {
             httpOnly: true,
@@ -65,10 +70,12 @@ export const loginUser = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
     console.log("checkauth triggered");
-    
+
     try {
-        const  userId = req.userId;
+        const userId = req.userId;
         const user = await User.findById(userId).select("-password")
+        console.log(user);
+        
         return res.json({ success: true, user })
     } catch (error) {
         console.log(error.message);
@@ -94,6 +101,8 @@ export const getUser = async (req, res) => {
 //logout user
 export const logoutUser = async (req, res) => {
     try {
+        console.log("logout trig");
+        
         res.clearCookie("token", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

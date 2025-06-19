@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Inputfield = ({ type, placeholder, name, handlechange, address }) => (
   <input
@@ -13,9 +15,10 @@ const Inputfield = ({ type, placeholder, name, handlechange, address }) => (
   />
 );
 const AddAddress = () => {
+  const { axios, user, navigate } = useAppContext();
   const [address, setAddress] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     street: "",
     city: "",
@@ -27,14 +30,31 @@ const AddAddress = () => {
   const handlechange = (e) => {
     const { name, value } = e.target;
 
-    setAddress((preaddress)=>({
-        ...preaddress,
-        [name]:value
-    }))
+    setAddress((preaddress) => ({
+      ...preaddress,
+      [name]: value,
+    }));
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/address/add", {address,userId:user._id });
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/cart");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/cart");
+    }
+  }, [user]);
 
   return (
     <div className="mt-16 pb-16">
@@ -48,73 +68,74 @@ const AddAddress = () => {
               <Inputfield
                 handlechange={handlechange}
                 address={address}
-                name="firstName"
+                name="firstname"
                 type="text"
                 placeholder="FirstName"
               />
               <Inputfield
                 handlechange={handlechange}
                 address={address}
-                name="lastName"
+                name="lastname"
                 type="text"
-                placeholder="LastName" 
+                placeholder="LastName"
               />
             </div>
             <Inputfield
-                handlechange={handlechange}
-                address={address}
-                name="email"
-                type="email"
-                placeholder="Email" 
-              /> 
-              <Inputfield
+              handlechange={handlechange}
+              address={address}
+              name="email"
+              type="email"
+              placeholder="Email"
+            />
+            <Inputfield
               handlechange={handlechange}
               address={address}
               name="street"
               type="text"
-              placeholder="Street" 
+              placeholder="Street"
             />
             <div className="grid grid-cols-2 gap-4">
-            <Inputfield
+              <Inputfield
                 handlechange={handlechange}
                 address={address}
                 name="city"
                 type="text"
-                placeholder="City" 
-              /> 
-               <Inputfield
-              handlechange={handlechange}
-              address={address}
-              name="state"
-              type="text"
-              placeholder="State" 
-            />
-              
+                placeholder="City"
+              />
+              <Inputfield
+                handlechange={handlechange}
+                address={address}
+                name="state"
+                type="text"
+                placeholder="State"
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
-            <Inputfield
+              <Inputfield
                 handlechange={handlechange}
                 address={address}
                 name="zipcode"
                 type="number"
-                placeholder="ZipCode" 
-              /> 
-             <Inputfield
-              handlechange={handlechange}
-              address={address}
-              name="country"
-              type="text"
-              placeholder="Country" 
-            />
-            </div>
-            <Inputfield
+                placeholder="ZipCode"
+              />
+              <Inputfield
                 handlechange={handlechange}
                 address={address}
-                name="phone"
-                type="number"
-                placeholder="Phone" 
-              /> 
-              <button className="w-full mt-6 bg-primary text-white py-3 hover:bg-primary-dull transition cursor-pointer uppercase">Save Address</button>
+                name="country"
+                type="text"
+                placeholder="Country"
+              />
+            </div>
+            <Inputfield
+              handlechange={handlechange}
+              address={address}
+              name="phone"
+              type="number"
+              placeholder="Phone"
+            />
+            <button className="w-full mt-6 bg-primary text-white py-3 hover:bg-primary-dull transition cursor-pointer uppercase">
+              Save Address
+            </button>
           </form>
         </div>
         <img

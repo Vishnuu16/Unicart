@@ -5,6 +5,6 @@ import { addAddress, getAddress } from "../controllers/addressController.js"
 const router =Router()
 
 router.post('/add',authUser,addAddress)
-router.get('/add',authUser,getAddress)
+router.get('/get',authUser,getAddress)
 
 export default router

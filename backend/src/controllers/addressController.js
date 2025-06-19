@@ -1,5 +1,5 @@
 import Address from "../model/addressModel.js"
-
+ 
 export const addAddress =async (req,res) => {
     try {
         const {address,userId} = req.body
@@ -13,11 +13,16 @@ export const addAddress =async (req,res) => {
 
 export const getAddress =async (req,res) => {
     try {
-        const {userId} = req.body
+        console.log("getadd trg");
+        const {userId} = req.query
+      
+        
+        console.log('userid',userId);
+        
         const addresses = await Address.find({userId})
         res.json({success:true, addresses})
     } catch (error) {
         console.log(error.message); 
         return res.status(500).json({ success: false, message: error.message });
-    }
+    } 
 }

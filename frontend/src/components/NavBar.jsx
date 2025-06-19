@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -15,10 +16,22 @@ const NavBar = () => {
     GetCArtCount,
     GetCartAmoutnt,
     navigate,
+    axios
   } = useAppContext();
   const logout = async () => {
-    setUser(null);
-    navigate("/");
+    try {
+      const {data} = await axios.get('/api/user/logout')
+      if(data.success){
+        toast.success(data.message)
+        setUser(null);
+        navigate("/");
+      }else{
+        toast.error(error.response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+   
   };
   useEffect(() => {
     if (searchQuery.length > 0) {
@@ -33,7 +46,7 @@ const NavBar = () => {
           setOpen(false);
         }}
       >
-        <img className="h-9" src={assets.logo} alt="logo" />
+        <img className="h-15" src={assets.logo} alt="logo" />
       </NavLink>
 
       {/* Desktop Menu */}

@@ -4,14 +4,25 @@ import { dummyOrders } from "../assets/assets";
 
 const MyOrders = () => {
   const [myOrders, setMyOrders] = useState([]);
-  const { currency } = useAppContext();
+  const { currency, axios, user } = useAppContext();
 
   const fetchMyOrder = async () => {
-    setMyOrders(dummyOrders);
+    try {
+      console.log(user);
+      
+      const { data } = await axios.get(`/api/order/user?id=${user._id}`);
+      if (data.success) {
+        setMyOrders(data.orders);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
-    fetchMyOrder();
-  }, []);
+    if (user) {
+      fetchMyOrder();
+    }
+  }, [user]);
   return (
     <div className="mt-16  mb-16 ">
       <div className="flex flex-col items-end w-max mb-8">
@@ -32,10 +43,12 @@ const MyOrders = () => {
             </span>
           </p>
           {order.items.map((data, i) => (
-            <div key={i} className={`relative bg-white text-gray-500/70 ${
+            <div
+              key={i}
+              className={`relative bg-white text-gray-500/70 ${
                 order.items.length !== i + 1 ? "border-b" : ""
               } border-gray-300 flex flex-col md:flex-row md:items-center justify-between p-4 py-5 md:gap-16 w-full max-w-4xl`}
-              >
+            >
               <div className="flx items-center mb-4 md:mb-0">
                 <div className="bg-primary/10 p-4 rounded-lg">
                   <img
@@ -53,11 +66,12 @@ const MyOrders = () => {
               </div>
               <div className="flex flex-col justify-center md:ml-8 mb-4 md:mb-0">
                 <p>Quantity: {data.quantity || 1}</p>
-                <p>Status: {order.status }</p>
+                <p>Status: {order.status}</p>
                 <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
               </div>
               <p className="text-primary text-lg font-medium">
-                Amount: {currency}{data.product.offerPrice*data.quantity}
+                Amount: {currency}
+                {data.product.offerPrice * data.quantity}
               </p>
             </div>
           ))}
