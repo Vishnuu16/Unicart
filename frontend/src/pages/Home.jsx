@@ -7,6 +7,8 @@ import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 
 const Home = () => {
+  console.log("homeeee");
+  
   return (
     <div className="mt-10 ">
       <MainBanner />
