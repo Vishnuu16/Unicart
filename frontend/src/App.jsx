@@ -22,6 +22,8 @@ import Loading from './components/Loading'
 import Contact from './pages/Contact'
 
 const App = () => {
+  console.log("VITE_BACKENDURL:", import.meta.env.VITE_BACKENDURL);
+
   const isSellerPath =useLocation().pathname.includes('seller')
   const {showUserLogin,isSeller} = useAppContext()
   return (
