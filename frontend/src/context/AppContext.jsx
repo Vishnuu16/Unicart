@@ -6,8 +6,8 @@ import axios from "axios";
 
 export const AppContext = createContext();
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_BACKENDURL;
+  axios.defaults.withCredentials = true;
+  axios.defaults.baseURL = import.meta.env.VITE_BACKENDURL;
 
 export const AppContextProvider = ({ children }) => {
   const currency = import.meta.env.VITE_CURRENCY;
@@ -116,7 +116,7 @@ export const AppContextProvider = ({ children }) => {
     const updateCart = async () => {
       try {
         const { data } = await axios.post("/api/cart/update", {
-          userId: user._id,
+          userId: user?._id,
           cartItem: cartItem,
         });
         if (!data.success) {

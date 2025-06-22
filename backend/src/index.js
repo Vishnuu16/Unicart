@@ -6,14 +6,14 @@ import 'dotenv/config'
 
 import userRoutes from './routes/userRoutes.js';
 import sellerRoutes from './routes/sellerRoutes.js'
-import productRouter from "./routes/productRoute.js"
+import productRouter from "./routes/productRoute.js" 
 import cartRouter from "./routes/cartRoute.js"
 import addressRouter from "./routes/addressRoute.js"
 import OrderRouter from "./routes/orderRoute.js"
 import connectCloud from './config/cloudinary.js';
 const app = express();
 const Port = process.env.PORT || 3000;
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = process.env.ALLOWED_ORIGINS;
 
 // Middleware
 app.use(express.json());
