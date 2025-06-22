@@ -69,6 +69,8 @@ import vanilla_muffins_image from "./vanilla_muffins_image.png";
 import quinoa_image from "./quinoa_image.png";
 import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
+import main_banner_bg_2 from './assets.main_banner_bg_2.jpg';
+import main_banner_bg_3 from './assets.main_banner_bg_3.jpg';
 
 export const assets = {
   logo,
@@ -77,6 +79,8 @@ export const assets = {
   arrow_right_icon_colored,
   star_icon,
   star_dull_icon,
+  main_banner_bg_2,
+  main_banner_bg_3, 
   cart_icon,
   nav_cart_icon,
   add_icon,

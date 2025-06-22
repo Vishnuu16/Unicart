@@ -93,7 +93,7 @@ const Contact = () => {
         {/* Contact Info */}
         <div className="w-full lg:w-1/2 space-y-8">
           <div className="flex items-start">
-            <div className="bg-blue-500 text-white rounded-full p-3 mr-4 flex-shrink-0">
+            <div className="bg-primary text-white rounded-full p-3 mr-4 flex-shrink-0">
               <FaEnvelope className="text-xl" />
             </div>
             <div>
@@ -104,7 +104,7 @@ const Contact = () => {
           </div>
 
           <div className="flex items-start">
-            <div className="bg-blue-500 text-white rounded-full p-3 mr-4 flex-shrink-0">
+            <div className="bg-primary text-white rounded-full p-3 mr-4 flex-shrink-0">
               <FaPhone className="text-xl" />
             </div>
             <div>
@@ -115,7 +115,7 @@ const Contact = () => {
           </div>
 
           <div className="flex items-start">
-            <div className="bg-blue-500 text-white rounded-full p-3 mr-4 flex-shrink-0">
+            <div className="bg-primary text-white rounded-full p-3 mr-4 flex-shrink-0">
               <FaMapMarkerAlt className="text-xl" />
             </div>
             <div>
@@ -180,7 +180,7 @@ const Contact = () => {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-md transition duration-300 flex items-center justify-center gap-2"
+            className="bg-primary hover:bg-primary-dull text-white px-6 py-3 rounded-md transition duration-300 flex items-center justify-center gap-2"
           >
             <FaPaperPlane /> Send Message
           </button>

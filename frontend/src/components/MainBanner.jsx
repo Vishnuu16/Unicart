@@ -19,7 +19,7 @@ const MainBanner = () => {
         </div>
         </div>
     </div>
-  )
+  ) 
 }
 
 export default MainBanner
