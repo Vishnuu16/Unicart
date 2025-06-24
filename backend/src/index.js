@@ -13,7 +13,7 @@ import OrderRouter from "./routes/orderRoute.js"
 import connectCloud from './config/cloudinary.js';
 const app = express();
 const Port = process.env.PORT || 3000;
-const allowedOrigins = process.env.ALLOWED_ORIGINS;
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];   
 
 // Middleware
 app.use(express.json());

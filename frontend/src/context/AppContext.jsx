@@ -105,7 +105,7 @@ export const AppContextProvider = ({ children }) => {
     } catch (error) {
       setUser(null);
     }
-  };
+  }; 
   useEffect(() => {
     fetchUser();
     fetchProduct();
@@ -114,9 +114,11 @@ export const AppContextProvider = ({ children }) => {
   // update database cart item
   useEffect(() => {
     const updateCart = async () => {
+      if (!user?._id) return;
+  
       try {
         const { data } = await axios.post("/api/cart/update", {
-          userId: user?._id,
+          userId: user._id,
           cartItem: cartItem,
         });
         if (!data.success) {
@@ -134,11 +136,12 @@ export const AppContextProvider = ({ children }) => {
         }
       }
     };
-
-    if (user) {
+  
+    if (user?._id) {
       updateCart();
     }
-  }, [cartItem]);
+  }, [cartItem, user]);
+  
 
   const value = {
     user,
